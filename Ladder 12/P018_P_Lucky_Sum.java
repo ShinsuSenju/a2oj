@@ -6,7 +6,7 @@ public class P018_P_Lucky_Sum {
     static void generate(long n, long r, List<Long> lucky) {
         if (n > 0)
             lucky.add(n);
-        if (n >= r)
+        if (n > r)
             return;
         generate(n * 10 + 4, r, lucky);
         generate(n * 10 + 7, r, lucky);
@@ -21,16 +21,17 @@ public class P018_P_Lucky_Sum {
         generate(0, r, lucky);
         Collections.sort(lucky);
 
-        long sum = 0;
-        for (long i = l; i <= r; i++) {
-            for (long x : lucky) {
-                if (x >= i) {
-                    sum += x;
-                    break;
-                }
-            }
+        long ans = 0L;
+        for (long x : lucky) {
+            if (l > r)
+                break;
+            if (x < l)
+                continue;
+            long end = Math.min(r, x);
+            ans += (end - l + 1) * x;
+            l = end + 1;
         }
 
-        System.out.println(sum);
+        System.out.println(ans);
     }
 }
